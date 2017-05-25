@@ -40,5 +40,11 @@ function throttle (fn, interval, scope) {
 </script>
 </head>
 <body>
+<p>
+  在浏览器端经常需要响应window的resize，scroll等事件，以便执行某些动作，但是一个常见场
+  景是我们不需要频繁的响应事件，为了达到更好的性能通常是在给定的一个时间间隔进行响应。
+  要求实现一个throttle函数如下，第一次立刻响应resize事件，之后最多1s响应一次。同时，要求
+  响应resize事件的函数能够接受event事件作为参数，并且在指定的上下文中执行。
+</p>
 </body>
 </html>
