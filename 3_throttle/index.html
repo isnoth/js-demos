@@ -1,0 +1,44 @@
+<html>
+<head>
+<script>
+function throttle (fn, interval, scope) {
+    var scope = scope //keep context
+    var timer = null
+    
+    return function(){
+        if (timer){
+        }else{
+            timer = setTimeout(function(){
+               fn.call(scope, arguments)
+                clearTimeout(timer)
+               timer = null
+            }, interval)
+        }
+    }
+} 
+
+
+(function () {
+    var obj = {
+        test: function (event) {
+            if (event.target === window)
+                console.log('print event successfully!');
+            if (this === obj)
+                console.log('print context successfully!');
+        },
+        createNode: function(event){
+            var node = document.createElement('p')
+            node.innerText = "new Node"
+            document.body.appendChild(node)
+        }
+    };
+
+    window.addEventListener('resize', throttle(obj.test, 1000, obj));
+    window.addEventListener('resize', throttle(obj.createNode, 1000, obj));
+})();
+
+</script>
+</head>
+<body>
+</body>
+</html>
