@@ -1,0 +1,187 @@
+<html>
+<head>
+<title>Js控制 iFrame 切换加载网址</title>
+<style>
+  .external{
+    width: 100%;
+    height: 100vh;
+    border: none;
+  }
+
+  body{
+    margin:0; 
+    padding:0; 
+    overflow-y:hidden
+  }
+
+
+/* test for keyframes*/
+
+@keyframes example {
+    0%   {background-color:red; left:0px; top:0px;}
+    25%  {background-color:yellow; left:200px; top:0px;}
+    50%  {background-color:blue; left:200px; top:200px;}
+    75%  {background-color:green; left:0px; top:200px;}
+    100% {background-color:red; left:0px; top:0px;}
+}
+
+@keyframes fadeOut {
+   0% {opacity: 1;}
+   100% {opacity: 0;} 
+}
+
+@keyframes fadein {
+   0% {opacity: 0;}
+   100% {opacity: 1;} 
+}
+
+
+#_external{
+    //width: 100px;
+    //height: 100px;
+    //background-color: red;
+    //position: relative;
+    -webkit-animation-name: fadeOut; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite; /* Safari 4.0 - 8.0 */
+    animation-name: fadeOut;
+    animation-duration: 4s;
+    //animation-iteration-count: infinite;
+}
+
+.fadeout{
+    animation-name: fadeOut;
+    animation-duration: 2s;
+    //animation-iteration-count: infinite;
+}
+
+
+.fadein{
+    animation-name: fadein;
+    animation-duration: 2s;
+    //animation-iteration-count: infinite;
+}
+
+
+
+
+
+
+.fadeIn {
+        animation-name: fadeIn;
+        -webkit-animation-name: fadeIn; 
+ 
+        animation-duration: 1.5s;   
+        -webkit-animation-duration: 1.5s;
+ 
+        animation-timing-function: ease-in-out; 
+        -webkit-animation-timing-function: ease-in-out;     
+ 
+        
+    }
+//@keyframes fadeIn {
+//        0% {
+//            transform: scale(0);
+//            opacity: 0.0;       
+//        }
+//        60% {
+//            transform: scale(1.1);  
+//        }
+//        80% {
+//            transform: scale(0.9);
+//            opacity: 1; 
+//        }   
+//        100% {
+//            transform: scale(1);
+//            opacity: 1; 
+//        }       
+//    }
+// 
+//    @-webkit-keyframes fadeIn {
+//        0% {
+//            -webkit-transform: scale(0);
+//            opacity: 0.0;       
+//        }
+//        60% {
+//            -webkit-transform: scale(1.1);
+//        }
+//        80% {
+//            -webkit-transform: scale(0.9);
+//            opacity: 1; 
+//        }   
+//        100% {
+//            -webkit-transform: scale(1);
+//            opacity: 1; 
+//        }       
+//    }
+
+
+
+
+
+
+
+
+</style>
+</head>
+<body>
+<!--a href="javascript:jumpto('http://www.163.com')">网易</a>
+<a href="javascript:jumpto('http://www.baidu.com')">百度搜索</a>
+<a href="javascript:jumpto('http://www.bing.com')">bing</a-->
+<iframe style="display: none" class="external" src="http://www.baidu.com"></iframe>
+<iframe style="display: none" class="external" src="http://www.bing.com"></iframe>
+
+<script language="javascript">
+
+(function(){
+  const urls = [
+    'http://10.140.14.99',
+    'http://www.bing.com',
+    'http://www.baidu.com',
+  ]
+
+  let tick = 0
+  //jumpto(urls[0]);
+  setInterval(()=>{
+    //let url =  urls[tick%3]
+    //console.log('jump to:', url)
+    //document.getElementById("external").className = "fadeout"
+
+    jumpto(tick%2)
+
+    //setTimeout(()=>{
+    //  document.getElementById("external").className = ""
+    //}, 2000)
+
+    tick++;
+  }, 5000)
+
+  function removeClass(el, classname){
+    el.className = el.className.split(' ').filter(i=>i.indexOf(classname)<0).join(' ')
+  }
+
+  function addClass(el, classname){
+    el.className += " " +classname
+  }
+  
+  function jumpto(index){
+    console.log('jumpto:', index)
+    var iframes = document.getElementsByClassName("external")
+    Array.prototype.forEach.call( iframes, (i)=>{
+      i.style.display = 'none';
+      //removeClass(i, 'fadeout')
+      removeClass(i, 'fadein')
+      //addClass(i, 'fadeout')
+    })
+
+    iframes[index].style.display = 'block';
+    //addClass(iframes[index], 'fadeIn')
+    addClass(iframes[index], 'fadein')
+
+
+  }
+})()
+
+</script>
+</body>
+</html>
