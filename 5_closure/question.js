@@ -9,18 +9,35 @@
 //#1
 //What is hoisting, please explain it and write some examples below
 //Your answer:
+1.1 变量提升
+```
+var x = 1;
+console.log(x); // 1
+if (true) {
+    var x = 2;
+    console.log(x); // 2
+}
+console.log(x); // 2
+```
 
-
+1.2. 函数提升
+1.2.1 函数声明式 -> 提升
+```
+function f1() {}
+```
+1.2.2 函数字面量式 -> 不提升
+```
+var f2 = function() {}
+```
 
 //#2
 //What is called IIFE? What is the full name of it? Write an example which is IIFE below:
-//Your answer:
-
-
+//Your answer: Immediately-invoked function expression 
+(function(){/* code */}());
 
 //#3
 //What would be printed out to the console for the snippet of code below?
-//Your answer:
+//Your answer: 15
 function doSomething(a) {
     b = a + doSomethingElse( a * 2 );
 
@@ -38,7 +55,7 @@ doSomething( 2 );
 
 //#4
 //What would be printed out to the console and exaplain why?
-//Your answer:
+//Your answer: opps
 //Your reason:
 undefined = true; // NOTE: JUST AN EXAMPLE, DON'T DO THIS
 
@@ -57,6 +74,10 @@ undefined = true; // NOTE: JUST AN EXAMPLE, DON'T DO THIS
 //#5
 //What would be printed out to the console?
 //Your answer:
+3
+2
+//
+
 var a = 2;
 
 (function IIFE( def ){
@@ -75,15 +96,14 @@ for (let i=0; i<3; i++) {
     console.log( i );
 }
 //What would be printed out in below line?
-console.log( i ); // Your answer:
+console.log( i ); // Your answer: i is not defined
 
 
 //#7
 //What would be printed out to the console?
-console.log( a );  //Your answer:
-console.log( b ); //Your answer:
+console.log( a );  //Your answer: undefined
+console.log( b ); //Your answer: b is not defined
 var a = 2;
-
 
 
 
@@ -101,10 +121,11 @@ foo = function() {
     console.log( 2 );
 };
 //Your answer:
-
+1
 
 //#9
 //What would be printed to the console?
+//answer:  foo is not a function
 foo();
 
 var a = true;
@@ -118,6 +139,8 @@ else {
 
 //#10
 //What would be printed out to the console? How many loops will be run?
+//answer: infinite loop
+
 function foo() {
     function bar(a) {
         i = 3;
@@ -134,6 +157,7 @@ foo();
 
 //#11
 //What would be printed to the console?
+//answer: 1
 var a = 1;
 var x = function () {
     console.log(a);
@@ -156,7 +180,7 @@ function f(p) {
 }
 f('a');
 //What would be printed out for the a variable?
-console.log(a) //your answer:
+console.log(a) //your answer: 2
 
 
 
@@ -172,7 +196,7 @@ var counter = {
 var func = counter.inc;
 func();
 //What would printed out to the console for counter.count?
-console.log(counter.count) //your answer:
+console.log(counter.count) //your answer:0
 
 
 
@@ -181,7 +205,7 @@ console.log(counter.count) //your answer:
 var slice = Function.prototype.call.bind(Array.prototype.slice);
 
 //What is the result of slice([1, 2, 3], 0, 1) ?
-slice([1, 2, 3], 0, 1) //your answer:
+slice([1, 2, 3], 0, 1) //your answer:[1]
 
 
 //#15
@@ -191,6 +215,7 @@ function foo(x = 5) {
     const x = 2;
 }
 //Your answer:
+no, const can not be assigned twice
 
 
 
@@ -201,10 +226,10 @@ function foo({x, y = 5}) {
 }
 
 //What would be printed out to the console for the following invocation?
-foo({}) //your answer:
-foo({x: 1}) //your answer:
-foo({x: 1, y: 2}) //your answer:
-foo() //your answer:
+foo({}) //your answer:undefined 5
+foo({x: 1}) //your answer:1 5
+foo({x: 1, y: 2}) //your answer: 1 2
+foo() //your answer: error
 
 
 //#17
@@ -214,10 +239,10 @@ function fetch(url, { method = 'GET' } = {}) {
 }
 
 //What would be printed out to the console?
-fetch('http://example.com'); //your answer:
-fetch(); //your answer:
-fetch('http://example.com', { etag: 'abcdefg'}); //your answer:
-fetch('http://example.com', { method: 'POST'}); //your answer:
+fetch('http://example.com'); //your answer: GET
+fetch(); //your answer: GET
+fetch('http://example.com', { etag: 'abcdefg'}); //your answer: GET
+fetch('http://example.com', { method: 'POST'}); //your answer: POST
 
 
 //#18
@@ -226,9 +251,9 @@ function foo(x = 5, y = 6) {
     console.log(x, y);
 }
 //What would be printed out to the console?
-foo(undefined, null); //your answer:
-foo(null, null); //your answer
-foo(null, 10); //your answer
+foo(undefined, null); //your answer: 5 null
+foo(null, null); //your answer: null null
+foo(null, 10); //your answer: null 10
 
 
 
@@ -240,7 +265,7 @@ function f(x, y = x) {
     console.log(y);
 }
 //What would be printed out to the console?
-f(2) //your answer:
+f(2) //your answer:2
 
 
 //#20
@@ -252,8 +277,8 @@ function foo(x, y = function() { x = 2; }) {
     console.log(x);
 }
 //What would be printed out to the console?
-foo() //your answer:
-console.log(x) //your answer
+foo() //your answer: 3
+console.log(x) //your answer: 1
 
 
 //#21
@@ -261,11 +286,11 @@ console.log(x) //your answer
 //your answer for "..." operator
 const [first, ...rest] = [1, 2, 3, 4, 5];
 //What would be the value for:
-first //your answer
-rest  //your answer
+first //your answer: 1
+rest  //your answer: [2,3,4,5]
 
 //Below code is valid?  If not, why?
-//your answer:
+//your answer: no 
 const [first, ...middle, last] = [1, 2, 3, 4, 5];
 
 
@@ -276,7 +301,9 @@ let str = '<??????>';
 
 function reverseString(s) {
     //your implementation
+    return [...s].reverse().join('')
 }
+
 //Write a function above to reverse the string.
 console.log(reverseString(str)); // ">??????<"
 
@@ -305,10 +332,8 @@ function Timer() {
 
 var timer = new Timer();
 //What would be printed out to the console?
-setTimeout(() => console.log('s1: ', timer.s1), 3100); //your answer:
-setTimeout(() => console.log('s2: ', timer.s2), 3100); //your answer:
-
-
+setTimeout(() => console.log('s1: ', timer.s1), 3100); //your answer: 3
+setTimeout(() => console.log('s2: ', timer.s2), 3100); //your answer: 0
 
 
 //#24
@@ -322,7 +347,7 @@ const subst = a => a - 1;
 const addThenMult = pipeline(plus1, mult2, subst);
 
 //What would be printed out to the console?
-console.log(addThenMult(10));  //your answer:
+console.log(addThenMult(10));  //your answer:21
 
 
 
