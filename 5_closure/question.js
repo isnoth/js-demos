@@ -212,11 +212,10 @@ slice([1, 2, 3], 0, 1) //your answer:[1]
 //Given the code below, is the function foo is correctly declared?  If not, why?
 function foo(x = 5) {
     let x = 1;
-    const x = 2;
+    const y = 2;
 }
 //Your answer:
-no, const can not be assigned twice
-
+no, let can not be assigned twice
 
 
 //#16
@@ -290,7 +289,7 @@ first //your answer: 1
 rest  //your answer: [2,3,4,5]
 
 //Below code is valid?  If not, why?
-//your answer: no 
+//your answer: no , Rest element must be last element in array
 const [first, ...middle, last] = [1, 2, 3, 4, 5];
 
 
@@ -361,7 +360,7 @@ function foo(str, a) {
 var b = 2;
 
 //What would be printed to the console when invoking foo function below?
-foo( "var b = 3;", 1 ); //your answer:
+foo( "var b = 3;", 1 ); //your answer: 1, 3
 
 
 
@@ -383,11 +382,11 @@ var o2 = {
 
 //What would be printed out to the console?
 foo( o1 );
-console.log( o1.a ); //your answer
+console.log( o1.a ); //your answer 2
 
 foo( o2 );
-console.log( o2.a ); //your answer
-console.log( a ); //your answer
+console.log( o2.a ); //your answer undefined
+console.log( a ); //your answer 2
 
 
 
@@ -401,7 +400,7 @@ for (var i=1; i<=5; i++) {
     })();
 }
 //What would be printed out to the console?
-//Your answer:
+//Your answer: 6,6,6,6,6
 
 
 
@@ -418,9 +417,9 @@ var id = "global id";
 
 
 //What would be printed out to the console for following invocation?
-obj.cool(); //your answer:
+obj.cool(); //your answer: 'object id'
 
-setTimeout( obj.cool, 100 ); //your answer:
+setTimeout( obj.cool, 100 ); //your answer: 'global id'
 
 
 
@@ -433,6 +432,7 @@ var obj = {
     cool: function coolFn() {
         if (this.count < 1) {
             setTimeout( () => {
+                console.log(this)
                 this.count++;
                 console.log('timeout!');
             }, 100 );
@@ -442,10 +442,51 @@ var obj = {
 
 //What would be printed out to the console for obj.count?
 obj.cool();
-setTimeout( () => { console.log(obj.count); }, 200);  //your answer
+setTimeout( () => { console.log(obj.count); }, 200);  //your answer 1
 
 
 //What if call the cool function like below, what would be printed out to the console?
 var coolFunc = obj.cool;
 coolFunc();
-setTimeout( () => { console.log(obj.count); }, 200);  //your answer
+setTimeout( () => { console.log(obj.count); }, 200);  //your answer 0
+
+//#30
+//Given the code below
+var id = 10;
+function foo() {
+  return () => {
+    return () => {
+      return () => {
+        console.log('id:', this.id);
+      };
+    };
+  };
+}
+
+var f = foo();
+
+//What would be printed out to the console for the following calls.
+var t1 = f.call({id: 5})()(); //your answer: 10
+var t2 = f().call({id:5})(); //your answer: 10
+var t3 = f()().call({id: 5}); //your answer: 10
+
+//The reason it outputs 10 is because arrow function has no "this" object. To correct it in order to make the output is 5, you should change the "this" for foo function instead of arrow functions:
+var f = foo.call({id: 5});
+//OR: var f = foo.bind({id:5})();
+var t1 = f.call({id: 5})()(); //5
+var t2 = f().call({id:5})(); //5
+var t3 = f()().call({id: 5}); //5
+
+
+//#31
+//Given the polyfill for .bind method. This polyfill is not the exact same as the native .bind function. Could you find the difference?  
+if(!('bind' in Function.prototype)){
+  Function.prototype.bind = function(){
+    var fn = this;
+    var context = arguments[0];
+    var args = Array.from(arguments).slice(1);
+    return function(){
+      return fn.apply(context, args);  
+    }
+  }
+}
